@@ -67,8 +67,8 @@
   (GET "/" [] (list-keiko))
   (GET "/new" [] (new-keiko))
   (GET "/:name" [name] (:signal (get-keiko name)))
-  (POST "/:name" [name signal] (update-keiko name signal))
   (POST "/create" [name key] (make-keiko name key))
+  (POST "/:name" [name signal] (update-keiko name signal))
   (route/not-found "Not Found"))
 
 (def app
