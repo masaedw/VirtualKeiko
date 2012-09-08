@@ -12,4 +12,5 @@
   :ring {:handler virtualkeiko.handler/app}
   :main virtualkeiko.web
   :profiles
-  {:dev {:dependencies [[ring-mock "0.1.3"]]}})
+  {:dev {:dependencies [[ring-mock "0.1.3"]]}
+   :production {}})
