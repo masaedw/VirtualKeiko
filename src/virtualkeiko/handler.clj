@@ -23,12 +23,13 @@
 ;; (valid-name? "012345678901234567890123456789012345678901234567890123456789")
 
 (defn make-keiko [name key]
-  (if (and (valid-name? name)
-           (not (nil? key)))
-    (do
-      (insert! :keikos {:name name :key key :signal "000"})
-      "OK")
-    "invalid parameters"))
+  (cond
+   (not (valid-name? name)) "invalid name"
+   (nil? key) "invalid key"
+   (< 0 (fetch-count :keikos :where {:name name})) (str name " already exists")
+   :else (do
+           (insert! :keikos {:name name :key key :signal "000"})
+           "OK")))
 
 (defn new-keiko []
   (html5
@@ -59,14 +60,18 @@
 ;; (new-signal "021" "x0X") ;=> "001"
 
 (defn update-keiko [name key signal]
-  (if (not (valid-signal? signal))
-    "invalid signal format"
-    (let [keiko (get-keiko name)]
-      (if (not (= (:key keiko) key))
-        "invalid key"
-        (do
-          (update! :keikos keiko (merge keiko { :signal (new-signal (:signal keiko) signal) }))
-          "OK")))))
+  (cond
+   (not (valid-name? name)) "invalid name"
+   (not (valid-signal? signal)) "invalid signal format"
+   (nil? key) "invalid key"
+   :else (do
+           (let [keiko (get-keiko name)]
+             (cond
+              (not (= (:key keiko) key)) "invalid key"
+              :else
+              (do
+                (update! :keikos keiko (merge keiko { :signal (new-signal (:signal keiko) signal) }))
+                "OK"))))))
 
 (defroutes app-routes
   (GET "/" [] (list-keiko))
