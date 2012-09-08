@@ -33,7 +33,8 @@
    [:head [:title "create your keiko"]]
    [:body (form-to [:post "/create"]
                    (text-field :name)
-                   (text-field :key))]))
+                   (text-field :key)
+                   (submit-button "submit"))]))
 
 (defn get-keiko [name]
   (fetch-one :keikos :where {:name name}))
