@@ -65,7 +65,7 @@
       (if (not (= (:key keiko) key))
         "invalid key"
         (do
-          (update! keiko (merge keiko { :signal (new-signal (:signal keiko) signal) }))
+          (update! :keikos keiko (merge keiko { :signal (new-signal (:signal keiko) signal) }))
           "OK")))))
 
 (defroutes app-routes
