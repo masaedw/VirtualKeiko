@@ -10,5 +10,6 @@
   :plugins [[lein-ring "0.7.5"]
             [lein-swank "1.4.2"]]
   :ring {:handler virtualkeiko.handler/app}
+  :main virtualkeiko.web
   :profiles
   {:dev {:dependencies [[ring-mock "0.1.3"]]}})
