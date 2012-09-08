@@ -14,7 +14,8 @@
   (set-connection! (make-keiko-connection)))
 
 (defn valid-name? [name]
-  (and (< (.length name) 50)
+  (and (not (nil? name))
+       (< (.length name) 50)
        (re-find #"^[^/]+$" name)))
 
 ;; (valid-name? "hogefuga")
@@ -22,11 +23,12 @@
 ;; (valid-name? "012345678901234567890123456789012345678901234567890123456789")
 
 (defn make-keiko [name key]
-  (if (valid-name? name)
+  (if (and (valid-name? name)
+           (not (nil? key)))
     (do
       (insert! :keikos {:name name :key key :signal "000"})
       "OK")
-    "invalid name"))
+    "invalid parameters"))
 
 (defn new-keiko []
   (html5
@@ -56,19 +58,22 @@
 
 ;; (new-signal "021" "x0X") ;=> "001"
 
-(defn update-keiko [name signal]
+(defn update-keiko [name key signal]
   (if (not (valid-signal? signal))
     "invalid signal format"
     (let [keiko (get-keiko name)]
-      (update! keiko (merge keiko { :signal (new-signal (:signal keiko) signal) }))
-      "OK")))
+      (if (not (= (:key keiko) key))
+        "invalid key"
+        (do
+          (update! keiko (merge keiko { :signal (new-signal (:signal keiko) signal) }))
+          "OK")))))
 
 (defroutes app-routes
   (GET "/" [] (list-keiko))
   (GET "/new" [] (new-keiko))
   (GET "/:name" [name] (:signal (get-keiko name)))
   (POST "/create" [name key] (make-keiko name key))
-  (POST "/:name" [name signal] (update-keiko name signal))
+  (POST "/:name" [name key signal] (update-keiko name key signal))
   (route/not-found "Not Found"))
 
 (def app
