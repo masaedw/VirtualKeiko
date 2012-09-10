@@ -51,7 +51,8 @@
        [:li [:span (:name keiko)] ":" [:span (:signal keiko)]])]]))
 
 (defn valid-signal? [signal]
-  (re-find #"^[012xX]{3}" signal))
+  (and (not (nil? signal))
+       (re-find #"^[012xX]{3}" signal)))
 
 (defn new-signal [old new]
   (let [select (fn [o n] (if (or (= n \x) (= n \X)) o n))]
