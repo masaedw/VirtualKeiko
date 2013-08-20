@@ -60,7 +60,7 @@
     [:h2 "signal format"]
     [:p
      "Keiko's signal is represented as 3 numbers.  The first number is red lamp, next is yellow lamp and last is green lamp.  "
-     "Lamps has 3 statuses; turned off (0), turned on (1), blinking (2)."]
+     "Lamps have 3 statuses; turned off (0), turned on (1), blinking (2)."]
     [:dl
      [:dt "000"] [:dd "all lamps are turned off"]
      [:dt "010"] [:dd "yellow lamp is turned on"]
