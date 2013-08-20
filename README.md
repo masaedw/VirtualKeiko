@@ -1,6 +1,8 @@
 # virtualkeiko
 
-FIXME
+A virtual keiko server
+
+http://virtualkeiko.herokuapp.com/
 
 ## Prerequisites
 
@@ -16,4 +18,4 @@ To start a web server for the application, run:
 
 ## License
 
-Copyright © 2012 FIXME
+Copyright © 2013 Masayuki Muto
