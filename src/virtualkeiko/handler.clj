@@ -55,7 +55,7 @@
      [:dt "000"] [:dd "all lamps are turned off"]
      [:dt "010"] [:dd "yellow lamp is turned on"]
      [:dt "022"] [:dd "yellow and green lamps are blinking"]]
-    [:p "You can use 'X' as 'save the current status' in new signal string.  0X0 means 'turn off red and green, save yellow's status!'"]
+    [:p "You can use 'X' as 'keep the current status' in new signal string.  0X0 means 'turn off red and green, keep yellow's status!'"]
     ]))
 
 (defn valid-signal? [signal]
