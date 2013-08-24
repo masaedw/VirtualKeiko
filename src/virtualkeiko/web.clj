@@ -3,6 +3,6 @@
   (:use virtualkeiko.handler))
 
 (defn -main []
-  (let [port (Integer/parseInt (System/getenv "PORT"))]
+  (let [port (Integer/parseInt (or (System/getenv "PORT") "8080"))]
     (initalize-app)
     (run-jetty app {:port port})))
