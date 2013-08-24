@@ -22,27 +22,19 @@
 ;; (valid-name? "hoge/fuga")
 ;; (valid-name? "012345678901234567890123456789012345678901234567890123456789")
 
-(defn make-keiko [name key]
+(defn make-keiko [name signal]
   (cond
    (not (valid-name? name)) "invalid name"
    (nil? key) "invalid key"
-   (< 0 (fetch-count :keikos :where {:name name})) (str name " already exists")
-   :else (do
-           (insert! :keikos {:name name :key key :signal "000"})
-           "OK")))
-
-(defn new-keiko []
-  (html5
-   [:head [:title "create your keiko"]]
-   [:body (form-to [:post "/create"]
-                   (text-field :name)
-                   (text-field :key)
-                   (submit-button "submit"))]))
+   :else (insert! :keikos {:name name :signal signal})))
 
 (defn get-keiko [name]
   (fetch-one :keikos :where {:name name}))
 
-(defn usage []
+(defn h-get-keiko [name]
+  (format "%s\n" (or (:signal (get-keiko name)) "000")))
+
+(defn h-usage []
   (html5
    [:head [:title "virtualkeiko"]]
    [:body
@@ -51,12 +43,10 @@
     [:p
      "This is a virtual keiko service.  Keiko is a series of great alert lamp devices which accepts to controll by rsh.  "
      "Every keikos have at least 3 lamps, which are red, yellow and green, and its status represented as 3 numbers."]
-    [:h2 "create new virtual keiko"]
-    [:p "curl -X POST -d 'name=&lt;your keiko's name&gt;&amp;key=&lt;update password&gt;' http://virtualkeiko.herokuapp.com/create"]
     [:h2 "get your keiko's status"]
     [:p "curl http://virtualkeiko.herokuapp.com/&lt;your keiko's name&gt;"]
     [:h2 "update your keiko's status"]
-    [:p "curl -X POST -d 'key=&lt;update password&gt;&amp;signal=&lt;new signal&gt;' http://virtualkeiko.herokuapp.com/&lt;your keiko's name&gt;"]
+    [:p "curl -X POST -d 'signal=&lt;new signal&gt;' http://virtualkeiko.herokuapp.com/&lt;your keiko's name&gt;"]
     [:h2 "signal format"]
     [:p
      "Keiko's signal is represented as 3 numbers.  The first number is red lamp, next is yellow lamp and last is green lamp.  "
@@ -78,26 +68,21 @@
 
 ;; (new-signal "021" "x0X") ;=> "001"
 
-(defn update-keiko [name key signal]
+(defn h-update-keiko [name signal]
   (cond
    (not (valid-name? name)) "invalid name"
    (not (valid-signal? signal)) "invalid signal format"
-   (nil? key) "invalid key"
    :else (do
            (let [keiko (get-keiko name)]
-             (cond
-              (not (= (:key keiko) key)) "invalid key"
-              :else
-              (do
-                (update! :keikos keiko (merge keiko { :signal (new-signal (:signal keiko) signal) }))
-                "OK"))))))
+             (if keiko
+               (update! :keikos keiko (merge keiko { :signal (new-signal (:signal keiko) signal) }))
+               (make-keiko name signal))
+             "OK\n"))))
 
 (defroutes app-routes
-  (GET "/" [] (usage))
-  (GET "/new" [] (new-keiko))
-  (GET "/:name" [name] (:signal (get-keiko name)))
-  (POST "/create" [name key] (make-keiko name key))
-  (POST "/:name" [name key signal] (update-keiko name key signal))
+  (GET "/" [] (h-usage))
+  (GET "/:name" [name] (h-get-keiko name))
+  (POST "/:name" [name signal] (h-update-keiko name signal))
   (route/not-found "Not Found"))
 
 (def app
