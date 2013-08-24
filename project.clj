@@ -3,14 +3,14 @@
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :dependencies [[org.clojure/clojure "1.4.0"]
-                 [compojure "1.1.3"]
-                 [congomongo "0.1.10"]
-                 [hiccup "1.0.1"]
-                 [ring "1.1.5"]]
+                 [compojure "1.1.5"]
+                 [congomongo "0.4.1"]
+                 [hiccup "1.0.4"]
+                 [ring "1.2.0"]]
   :plugins [[lein-ring "0.7.5"]
             [lein-swank "1.4.2"]]
   :ring {:handler virtualkeiko.handler/app}
   :main virtualkeiko.web
   :profiles
-  {:dev {:dependencies [[ring-mock "0.1.3"]]}
+  {:dev {:dependencies [[ring-mock "0.1.5"]]}
    :production {}})
