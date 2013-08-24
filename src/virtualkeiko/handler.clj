@@ -10,7 +10,7 @@
 (defn make-keiko-connection []
   (make-connection (get (System/getenv) "MONGOHQ_URL")))
 
-(defn initalize-app []
+(defn initialize-app []
   (set-connection! (make-keiko-connection)))
 
 (defn valid-name? [name]

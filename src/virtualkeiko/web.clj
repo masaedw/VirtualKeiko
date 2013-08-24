@@ -4,5 +4,5 @@
 
 (defn -main []
   (let [port (Integer/parseInt (or (System/getenv "PORT") "8080"))]
-    (initalize-app)
+    (initialize-app)
     (run-jetty app {:port port})))
