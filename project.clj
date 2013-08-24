@@ -7,8 +7,8 @@
                  [congomongo "0.4.1"]
                  [hiccup "1.0.4"]
                  [ring "1.2.0"]]
-  :plugins [[lein-ring "0.7.5"]
-            [lein-swank "1.4.2"]]
+  :plugins [[lein-ring "0.8.6"]
+            [lein-swank "1.4.5"]]
   :ring {:handler virtualkeiko.handler/app}
   :main virtualkeiko.web
   :profiles
