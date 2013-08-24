@@ -6,6 +6,7 @@
                  [compojure "1.1.5"]
                  [congomongo "0.4.1"]
                  [hiccup "1.0.4"]
+                 [org.clojure/tools.nrepl "0.2.3"]
                  [ring "1.2.0"]]
   :plugins [[lein-ring "0.8.6"]
             [lein-swank "1.4.5"]]
