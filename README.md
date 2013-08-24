@@ -6,7 +6,7 @@ http://virtualkeiko.herokuapp.com/
 
 ## Prerequisites
 
-You will need [Leiningen][1] 1.7.0 or above installed.
+[Leiningen][1] 2.0.0 or above.
 
 [1]: https://github.com/technomancy/leiningen
 
